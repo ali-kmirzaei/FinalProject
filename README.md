@@ -1,1 +1,1 @@
-# Using Yolo for objeect detection
+# Using Yolo for object detection
