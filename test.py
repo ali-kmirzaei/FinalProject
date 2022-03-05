@@ -1,18 +1,15 @@
-from cv2 import mean
 import numpy as np
 import cv2
-from torch import le
 
 
 NET_CONFIG = "yolov3.cfg"
-NET_WEIGHTS = "yolov3_training_4000.weights"
+NET_WEIGHTS = "yolov3_training_6000.weights"
 CLASSES = []
-BLOB_SIZE = (320, 320)
+BLOB_SIZE = (416, 416)
 CONFIDENT_THRESHOLD = 0.5
 NMS_THRESHOLD = 0.3
 
 
-# names_file = "coco.names"
 names_file = "classes.txt"
 with open(names_file, "rt") as f:
     CLASSES = f.read().rstrip("\n").split("\n")
@@ -58,7 +55,7 @@ def find_object(output, img):
                 confidences.append(float(confidence))
     indices = cv2.dnn.NMSBoxes(bboxes, confidences, CONFIDENT_THRESHOLD, NMS_THRESHOLD)
     details = [bboxes, class_ids, confidences]
-    create_box(indices, img, details)
+    # create_box(indices, img, details)
     return np.mean(confidences)
 
 
@@ -90,23 +87,41 @@ def test_single_img(img):
     out_names = net.getUnconnectedOutLayersNames()
     output = net.forward(out_names)
     confidence = find_object(output, img)
-    cv2.imshow("Img", img)
+    # cv2.imshow("Img", img)
     cv2.waitKey(0)
     return confidence
 
 
-def test_acc():
-    # with open("test.txt", "rt") as f:
-    #     imgs = f.read().split('\n')
+def test_acc(imgs):
+    cnt = 1
     acc_list = list()
-    imgs = ['01.jpeg', '02.jpeg', '03.jpeg']
     for img in imgs:
-        acc_list.append(test_single_img(img))
+        img_acc = test_single_img(img)
+        acc_list.append(img_acc)
+        print(cnt)
+        print("Test Acc:", img_acc)
+        cnt += 1
+    print()
     acc_mean = np.mean(acc_list)
+    return acc_mean
     print("Mean Test Acc:", acc_mean)
+
+def calc_acc():
+    with open("data/train.txt", "rt") as f:
+        imgs = f.read().split('\n')
+    imgs.remove('')
+    train_acc = test_acc(imgs)
+
+    with open("data/test.txt", "rt") as f:
+        imgs = f.read().split('\n')
+    imgs.remove('')
+    test_acc = test_acc(imgs)
+
+    print(train_acc)
+    print(test_acc)
 
 
 
 # test_camera()
 # test_single_img()
-test_acc()
+# calc_acc()
