@@ -79,8 +79,8 @@ def test_camera():
 
 
 # test with img
-def test_single_img(img):    
-    img = cv2.imread(img)
+def test_single_img():   
+    img = cv2.imread('01.jpg')
     blob = cv2.dnn.blobFromImage(img, scalefactor=1/255, size=BLOB_SIZE, mean=(0,0,0),
                                     swapRB=True, crop=False)
     net.setInput(blob)
@@ -92,36 +92,6 @@ def test_single_img(img):
     return confidence
 
 
-def test_acc(imgs):
-    cnt = 1
-    acc_list = list()
-    for img in imgs:
-        img_acc = test_single_img(img)
-        acc_list.append(img_acc)
-        print(cnt)
-        print("Test Acc:", img_acc)
-        cnt += 1
-    print()
-    acc_mean = np.mean(acc_list)
-    return acc_mean
-    print("Mean Test Acc:", acc_mean)
-
-def calc_acc():
-    with open("data/train.txt", "rt") as f:
-        imgs = f.read().split('\n')
-    imgs.remove('')
-    train_acc = test_acc(imgs)
-
-    with open("data/test.txt", "rt") as f:
-        imgs = f.read().split('\n')
-    imgs.remove('')
-    test_acc = test_acc(imgs)
-
-    print(train_acc)
-    print(test_acc)
-
-
 
 # test_camera()
 # test_single_img()
-# calc_acc()
