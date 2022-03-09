@@ -15,7 +15,7 @@ class_id = 5, name = Pname, ap = 99.55%          (TP = 198, FP = 2) <br />
 <br />
  IoU threshold = 50 %, used Area-Under-Curve for each unique Recall <br />
  mean average precision (mAP@0.50) = 0.991370, or 99.14 % <br />
- <br />
+
  -------------------------------------------------------------------------------------
  <br />
 -on TestSet:<br />
