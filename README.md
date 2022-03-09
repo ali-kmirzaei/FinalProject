@@ -1,7 +1,7 @@
 # Using YOLOv3 for object detection
 After 6000 iteration on 700 train data and 200 test data, result is: <br />
 
-On TrainSet: <br />
+-On TrainSet: <br />
 detections_count = 1347, unique_truth_count = 1200 <br />
 class_id = 0, name = Card, ap = 99.41%           (TP = 199, FP = 1) <br />
 class_id = 1, name = Avatar, ap = 99.41%         (TP = 199, FP = 2) <br />
@@ -16,8 +16,9 @@ class_id = 5, name = Pname, ap = 99.55%          (TP = 198, FP = 2) <br />
  IoU threshold = 50 %, used Area-Under-Curve for each unique Recall <br />
  mean average precision (mAP@0.50) = 0.991370, or 99.14 % <br />
  <br />
+ -------------------------------------------------------------------------------------
  <br />
- on TestSet:<br />
+-on TestSet:<br />
 detections_count = 1368, unique_truth_count = 1200<br />
 class_id = 0, name = Card, ap = 99.42%           (TP = 199, FP = 1)<br />
 class_id = 1, name = Avatar, ap = 99.41%         (TP = 199, FP = 2)<br />
