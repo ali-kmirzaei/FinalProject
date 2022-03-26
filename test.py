@@ -28,12 +28,15 @@ def exit():
 def create_box(indices, img, details):
     bboxes, class_ids, confidences = details[0], details[1], details[2]
     for i in indices:
-        # i = i[0]
         bbox = bboxes[i]
         x, y, w, h = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
         cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 2)
         cv2.putText(img, f'{CLASSES[class_ids[i]].upper()} {int(confidences[i]*100)}%',
                     (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0,0,255), 2)
+        
+        roi = img[y:y+h, x:x+w]
+        name = CLASSES[class_ids[i]].upper()+".jpg"
+        cv2.imwrite(name, roi)
 
 def find_object(output, img):
     img_h, img_w, _ = img.shape
