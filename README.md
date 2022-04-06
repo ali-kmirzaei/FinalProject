@@ -14,3 +14,5 @@ Test set - pack1 weights : mean average precision (mAP@0.50) = 0.944054, or 94.4
 
 Test set - pack2 weights : mean average precision (mAP@0.50) = 0.974545, or 97.45 % 
 <br />
+
+![chartTotal](https://user-images.githubusercontent.com/77521376/161998339-88d586f6-499d-4a54-bcd8-f6d7b6c51bff.jpg)
