@@ -26,6 +26,8 @@ def find_degree(src):
             angle = np.arctan2(pt2[1]-pt1[1], pt2[0]-pt1[0]) * 180. /np.pi
             angle_abs = abs(angle)
             # print(angle)
+            if angle == -90:
+                return angle
             if angle_abs < 45:
                 cv.line(cdst, pt1, pt2, (0,0,255), 3, cv.LINE_AA)
 
@@ -43,8 +45,12 @@ def find_degree(src):
     return degree
 
 def rotate(src, degree):
-    rotated = imutils.rotate(src, degree)
+    if degree == -90:
+        rotated = imutils.rotate_bound(src, -degree)
+    else:
+        rotated = imutils.rotate(src, degree)
     while cv.waitKey(1) != ord('0'):
         cv.imshow("Rotated", rotated)
     return rotated
+
 
