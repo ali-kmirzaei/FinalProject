@@ -4,7 +4,6 @@ import numpy as np
 import imutils
 
 
-
 def find_degree(src):
     # Edge detection
     dst = cv.Canny(src, 50, 200, None, 3)
@@ -24,25 +23,23 @@ def find_degree(src):
             y0 = b * rho
             pt1 = (int(x0 + 1000*(-b)), int(y0 + 1000*(a)))
             pt2 = (int(x0 - 1000*(-b)), int(y0 - 1000*(a)))
-            cv.line(cdst, pt1, pt2, (0,0,255), 3, cv.LINE_AA)
+            angle = np.arctan2(pt2[1]-pt1[1], pt2[0]-pt1[0]) * 180. /np.pi
+            angle_abs = abs(angle)
+            # print(angle)
+            if angle_abs < 45:
+                cv.line(cdst, pt1, pt2, (0,0,255), 3, cv.LINE_AA)
 
-            if theta > degree:
-                degree = theta
+                if angle_abs > degree:
+                    degree = angle
     else:
         return "Please insert a better image!"
 
     while cv.waitKey(1) != ord('0'):
         cv.imshow("lines", cdst)
 
-    # print(degree)    
-    degree = 180*degree/3.1415926
-    # print(degree)
-    degree = degree-90
     # print(degree)
     if degree > 80:
         return 0
-    elif degree > 45:
-        return "Please insert a better image"
     return degree
 
 def rotate(src, degree):
