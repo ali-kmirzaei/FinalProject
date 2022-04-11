@@ -4,7 +4,7 @@ import numpy as np
 import imutils
 
 
-def find_degree(src):
+def find_angle(src):
     # Edge detection
     dst = cv.Canny(src, 50, 200, None, 3)
     cdst = cv.cvtColor(dst, cv.COLOR_GRAY2BGR)
@@ -13,7 +13,9 @@ def find_degree(src):
     # Draw the lines
     angle_max = float('-inf')
     # print(lines)
-    if lines is not None:
+    if lines is None:
+        return "Please insert a better image!"
+    else:
         for i in range(0, len(lines)):
             rho = lines[i][0][0]
             theta = lines[i][0][1]
@@ -33,8 +35,6 @@ def find_degree(src):
 
                 if angle_abs > angle_max:
                     angle_max = angle
-    else:
-        return "Please insert a better image!"
 
     while cv.waitKey(1) != ord('0'):
         cv.imshow("lines", cdst)
@@ -45,8 +45,8 @@ def find_degree(src):
     #     return 0
     return angle_max
 
-def rotate(src, degree):
-    rotated = imutils.rotate(src, degree)
+def rotate(src, angle):
+    rotated = imutils.rotate(src, angle)
 
     # if degree == -90:
     #     rotated = imutils.rotate_bound(src, -degree)
