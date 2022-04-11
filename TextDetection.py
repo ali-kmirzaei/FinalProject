@@ -10,7 +10,8 @@ import BalanceAngle as ba
 NET_CONFIG = "yolov3.cfg"
 NET_WEIGHTS = "step2_6000.weights"
 CLASSES = []
-BLOB_SIZE = (320, 320)
+# BLOB_SIZE = (320, 320)
+BLOB_SIZE = (416, 416)
 CONFIDENT_THRESHOLD = 0.5
 NMS_THRESHOLD = 0.3
 
