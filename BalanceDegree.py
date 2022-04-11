@@ -11,7 +11,7 @@ def find_degree(src):
     # Standard Hough Line Transform
     lines = cv.HoughLines(dst, 1, np.pi / 180, 150, None, 0, 0)
     # Draw the lines
-    degree = 0
+    angle_max = float('-inf')
     # print(lines)
     if lines is not None:
         for i in range(0, len(lines)):
@@ -26,13 +26,13 @@ def find_degree(src):
             angle = np.arctan2(pt2[1]-pt1[1], pt2[0]-pt1[0]) * 180. /np.pi
             angle_abs = abs(angle)
             # print(angle)
-            if angle == -90:
-                return angle
+            # if angle == -90:
+                # return angle
             if angle_abs < 45:
                 cv.line(cdst, pt1, pt2, (0,0,255), 3, cv.LINE_AA)
 
-                if angle_abs > degree:
-                    degree = angle
+                if angle_abs > angle_max:
+                    angle_max = angle
     else:
         return "Please insert a better image!"
 
@@ -40,17 +40,19 @@ def find_degree(src):
         cv.imshow("lines", cdst)
 
     # print(degree)
-    if degree > 80:
-        return 0
-    return degree
+
+    # if degree > 80:
+    #     return 0
+    return angle_max
 
 def rotate(src, degree):
-    if degree == -90:
-        rotated = imutils.rotate_bound(src, -degree)
-    else:
-        rotated = imutils.rotate(src, degree)
-    while cv.waitKey(1) != ord('0'):
-        cv.imshow("Rotated", rotated)
+    rotated = imutils.rotate(src, degree)
+
+    # if degree == -90:
+    #     rotated = imutils.rotate_bound(src, -degree)
+    # else:
+    #     rotated = imutils.rotate(src, degree)
+
+    # while cv.waitKey(1) != ord('0'):
+    #     cv.imshow("Rotated", rotated)
     return rotated
-
-
