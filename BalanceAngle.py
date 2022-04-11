@@ -7,7 +7,7 @@ import imutils
 def find_angle(src):
     # Edge detection
     dst = cv.Canny(src, 50, 200, None, 3)
-    cdst = cv.cvtColor(dst, cv.COLOR_GRAY2BGR)
+    cdst = cv.cvtColor(dst, cv.COLOR_RGB2BGR)
     # Standard Hough Line Transform
     lines = cv.HoughLines(dst, 1, np.pi / 180, 150, None, 0, 0)
     # Draw the lines
