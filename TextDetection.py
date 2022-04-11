@@ -2,6 +2,10 @@ import numpy as np
 import cv2
 import glob
 
+import BalanceAngle as ba
+
+
+
 
 NET_CONFIG = "yolov3.cfg"
 NET_WEIGHTS = "step2_6000.weights"
@@ -9,6 +13,9 @@ CLASSES = []
 BLOB_SIZE = (320, 320)
 CONFIDENT_THRESHOLD = 0.5
 NMS_THRESHOLD = 0.3
+
+# WARNING = cv2.imread("warning.png")
+# WARNING = cv2.resize(WARNING, BLOB_SIZE)
 
 
 names_file = "classes.txt"
@@ -34,7 +41,7 @@ def create_box(indices, img, details):
         cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 2)
         cv2.putText(img, f'{CLASSES[class_ids[i]].upper()} {int(confidences[i]*100)}%',
                     (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0,0,255), 2)
-                    
+
         roi = img[y:y+h, x:x+w]
         name = "subImgs/"+CLASSES[class_ids[i]].upper()+".jpg"
         cv2.imwrite(name, roi)
@@ -66,11 +73,18 @@ def test_camera():
     cap = cv2.VideoCapture(0)
     while not exit():
         success, frame = cap.read()
+
+        angle = ba.find_angle(frame)
+        if type(angle) == str:
+            continue
+        frame = ba.rotate(frame, angle)
+
         blob = cv2.dnn.blobFromImage(frame, scalefactor=1/255, size=BLOB_SIZE, mean=(0,0,0),
                                     swapRB=True, crop=False)
         # for img in blob:
         #     for k, b in enumerate(img):
-        #         cv2.imshow(str(k), b)
+        #         cv2.imshow(str(# test_camera()test_sik), b)
+
         net.setInput(blob)
         out_names = net.getUnconnectedOutLayersNames()
         output = net.forward(out_names)
@@ -80,7 +94,7 @@ def test_camera():
         cv2.imshow("Webcam", frame)
 
 # test with img
-def test_single_img(img):    
+def test_single_img(img):
     blob = cv2.dnn.blobFromImage(img, scalefactor=1/255, size=BLOB_SIZE, mean=(0,0,0),
                                     swapRB=True, crop=False)
     net.setInput(blob)
@@ -94,11 +108,11 @@ def test_single_img(img):
 
 
 
-# # test_camera()
+# test_camera()
+
 # test_single_img(cv2.imread("01.jpeg"))
 
 
 # imgs = glob.glob('*.jpeg')
 # for img in imgs:
 #     test_single_img(img)
-
