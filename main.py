@@ -2,7 +2,7 @@
 # start = timeit.default_timer()
 
 import TextDetection as td
-import BalanceDegree as bd
+import BalanceAngle as ba
 import cv2 as cv
 
 
@@ -14,13 +14,13 @@ def main():
     while cv.waitKey(1) != ord('0'):
         cv.imshow("Rotated", img)
 
-    angle = bd.find_degree(img)
+    angle = ba.find_angle(img)
     print(angle)
     if type(angle) == str:
         print(angle)
         return 0
 
-    img = bd.rotate(img, angle)
+    img = ba.rotate(img, angle)
 
     while cv.waitKey(1) != ord('0'):
         cv.imshow("Rotated", img)
